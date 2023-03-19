@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-BATCH_SIZE=150
+BATCH_SIZE=128
 
 
 transform = Compose([
@@ -30,7 +30,7 @@ test_dataset = Cifar10(mode='test', transform=transform,download=True)
 classes = ["airplane", "automobile", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"]
 
 
-trainloader = paddle.io.DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=2)
+trainloader = paddle.io.DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=3)
 testloader = paddle.io.DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=2)
 
 # # for batch_id,data in enumerate(train_loader()):

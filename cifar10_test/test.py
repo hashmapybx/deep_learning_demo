@@ -21,17 +21,19 @@ def evaluation(model):
     param_dict = paddle.load(params_file_path)
     model.load_dict(param_dict)
     model.eval()
-    vote_correct = 0
-    test_sum  = 0
-    for img, label in testloader():
-        predicts= model(img)
-        prediction = paddle.argmax(predicts,1)
-        pre_num = prediction.cpu().numpy()
-        vote_correct += (pre_num == label.cpu().numpy()).sum()
-        test_sum += BATCH_SIZE
-        print(
-            f"\rTest ACC： {(vote_correct / test_sum):.5}",
-            end="")
+    acc_list = []
+    loss_list = []
+    for batch_id,data in enumerate(testloader()):
+        x_data = paddle.cast(data[0],'float32')
+        y_data = paddle.cast(data[1], 'int32')
+        y_data = paddle.reshape(y_data,(-1,1))
+        y_pred = model(x_data)
+        loss = F.cross_entropy(y_pred, y_data)
+        acc = paddle.metric.accuracy(y_pred, y_data)
+        acc_list.append(np.mean(acc.cpu().numpy()))
+        loss_list.append(np.mean(loss.cpu().numpy()))
+    avg_acc, avg_loss = np.mean(acc_list), np.mean(loss_list)
+    print("评估准确度为：{}；损失为：{}".format(avg_acc, avg_loss))
 
 
 def test_one(model):
@@ -57,4 +59,4 @@ def test_one(model):
 
 
 if __name__ == '__main__':
-    test_one(model)
+    evaluation(model)
