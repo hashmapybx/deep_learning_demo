@@ -1,5 +1,14 @@
 # deep_learning_demo
 深度学习入门学习
+
+## 安装paddle 过程
+在anaconda下面，python3.8 安装gpu版本的paddle
+https://www.paddlepaddle.org.cn/
+
+python -m pip install paddlepaddle-gpu==2.4.2 -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+下面开始实验
+
 ## cifar_10数据集做分类任务
 ### 1、renet_18网络结构
 利用paddle的高级API来创建Resnet网络模型结构
